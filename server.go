@@ -5,8 +5,7 @@ import (
 	"log"
 	"net"
 
-	pb "github.com/booneng/nowa"
-
+	pb "github.com/booneng/nowa/protos"
 	"google.golang.org/grpc"
 )
 
@@ -16,13 +15,13 @@ const (
 
 // server is used to implement helloworld.GreeterServer.
 type server struct {
-	pb.UnimplementedGreeterServer
+	pb.UnimplementedNowaServer
 }
 
 // SayHello implements helloworld.GreeterServer
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+func (s *server) SayHello(ctx context.Context, in *pb.GetRestaurantRequest) (*pb.GetRestaurantResponse, error) {
 	log.Printf("Received: %v", in.GetName())
-	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
+	return &pb.GetRestaurantResponse{Message: "Hello " + in.GetName()}, nil
 }
 
 func main() {
@@ -31,7 +30,7 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
-	pb.RegisterGreeterServer(s, &server{})
+	pb.RegisterNowaServer(s, &server{})
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
