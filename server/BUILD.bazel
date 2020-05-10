@@ -12,7 +12,7 @@ go_library(
     importpath = "github.com/booneng/nowa/server",
     visibility = ["//visibility:private"],
     deps = [
-        "//protos:go_default_library",
+        "//protos:protos_go_proto",
         "@org_golang_google_grpc//:go_default_library",
     ],
 )
