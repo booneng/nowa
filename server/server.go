@@ -14,12 +14,10 @@ const (
 	port = ":50051"
 )
 
-// server is used to implement helloworld.GreeterServer.
 type server struct {
 	pb.UnimplementedNowaServer
 }
 
-// SayHello implements helloworld.GreeterServer
 func (s *server) GetRestaurant(ctx context.Context, in *pb.GetRestaurantRequest) (*pb.GetRestaurantResponse, error) {
 	log.Printf("Received: %v", in.GetRestaurantId())
 	return &pb.GetRestaurantResponse{Restaurant: &pb.Restaurant{RestaurantId: in.GetRestaurantId(), Name: "mcd"}}, nil

@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-import "restaurant.proto";
+import "protos/restaurant.proto";
 
-// option go_package = "github.com/booneng/nowa/protos";
+option go_package = "github.com/booneng/nowa/protos";
 
 package nowa;
 
