@@ -6,6 +6,7 @@ import (
 	"net"
 
 	pb "github.com/booneng/nowa/protos"
+
 	"google.golang.org/grpc"
 )
 
@@ -20,8 +21,8 @@ type server struct {
 
 // SayHello implements helloworld.GreeterServer
 func (s *server) SayHello(ctx context.Context, in *pb.GetRestaurantRequest) (*pb.GetRestaurantResponse, error) {
-	log.Printf("Received: %v", in.GetName())
-	return &pb.GetRestaurantResponse{Message: "Hello " + in.GetName()}, nil
+	log.Printf("Received: %v", in.GetRestaurantId())
+	return &pb.GetRestaurantResponse{Restaurant: &pb.Restaurant{RestaurantId: in.GetRestaurantId(), Name: "mcd"}}, nil
 }
 
 func main() {
