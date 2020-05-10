@@ -15,5 +15,5 @@ message GetRestaurantResponse {
 }
 
 service Nowa {
-
+    rpc GetRestaurant(GetRestaurantRequest) returns (GetRestaurantResponse) {}
 }

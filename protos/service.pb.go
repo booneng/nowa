@@ -12,6 +12,8 @@ import (
 	context "context"
 	proto "github.com/golang/protobuf/proto"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -137,7 +139,12 @@ var file_service_proto_rawDesc = []byte{
 	0x0a, 0x72, 0x65, 0x73, 0x74, 0x61, 0x75, 0x72, 0x61, 0x6e, 0x74, 0x18, 0x01, 0x20, 0x01, 0x28,
 	0x0b, 0x32, 0x10, 0x2e, 0x6e, 0x6f, 0x77, 0x61, 0x2e, 0x52, 0x65, 0x73, 0x74, 0x61, 0x75, 0x72,
 	0x61, 0x6e, 0x74, 0x52, 0x0a, 0x72, 0x65, 0x73, 0x74, 0x61, 0x75, 0x72, 0x61, 0x6e, 0x74, 0x32,
-	0x06, 0x0a, 0x04, 0x4e, 0x6f, 0x77, 0x61, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x52, 0x0a, 0x04, 0x4e, 0x6f, 0x77, 0x61, 0x12, 0x4a, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x52, 0x65,
+	0x73, 0x74, 0x61, 0x75, 0x72, 0x61, 0x6e, 0x74, 0x12, 0x1a, 0x2e, 0x6e, 0x6f, 0x77, 0x61, 0x2e,
+	0x47, 0x65, 0x74, 0x52, 0x65, 0x73, 0x74, 0x61, 0x75, 0x72, 0x61, 0x6e, 0x74, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x6e, 0x6f, 0x77, 0x61, 0x2e, 0x47, 0x65, 0x74, 0x52,
+	0x65, 0x73, 0x74, 0x61, 0x75, 0x72, 0x61, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x65, 0x22, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -160,8 +167,10 @@ var file_service_proto_goTypes = []interface{}{
 }
 var file_service_proto_depIdxs = []int32{
 	2, // 0: nowa.GetRestaurantResponse.restaurant:type_name -> nowa.Restaurant
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
+	0, // 1: nowa.Nowa.GetRestaurant:input_type -> nowa.GetRestaurantRequest
+	1, // 2: nowa.Nowa.GetRestaurant:output_type -> nowa.GetRestaurantResponse
+	2, // [2:3] is the sub-list for method output_type
+	1, // [1:2] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
@@ -231,6 +240,7 @@ const _ = grpc.SupportPackageIsVersion6
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type NowaClient interface {
+	GetRestaurant(ctx context.Context, in *GetRestaurantRequest, opts ...grpc.CallOption) (*GetRestaurantResponse, error)
 }
 
 type nowaClient struct {
@@ -241,22 +251,59 @@ func NewNowaClient(cc grpc.ClientConnInterface) NowaClient {
 	return &nowaClient{cc}
 }
 
+func (c *nowaClient) GetRestaurant(ctx context.Context, in *GetRestaurantRequest, opts ...grpc.CallOption) (*GetRestaurantResponse, error) {
+	out := new(GetRestaurantResponse)
+	err := c.cc.Invoke(ctx, "/nowa.Nowa/GetRestaurant", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // NowaServer is the server API for Nowa service.
 type NowaServer interface {
+	GetRestaurant(context.Context, *GetRestaurantRequest) (*GetRestaurantResponse, error)
 }
 
 // UnimplementedNowaServer can be embedded to have forward compatible implementations.
 type UnimplementedNowaServer struct {
 }
 
+func (*UnimplementedNowaServer) GetRestaurant(context.Context, *GetRestaurantRequest) (*GetRestaurantResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRestaurant not implemented")
+}
+
 func RegisterNowaServer(s *grpc.Server, srv NowaServer) {
 	s.RegisterService(&_Nowa_serviceDesc, srv)
+}
+
+func _Nowa_GetRestaurant_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRestaurantRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NowaServer).GetRestaurant(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/nowa.Nowa/GetRestaurant",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NowaServer).GetRestaurant(ctx, req.(*GetRestaurantRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 var _Nowa_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "nowa.Nowa",
 	HandlerType: (*NowaServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "service.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetRestaurant",
+			Handler:    _Nowa_GetRestaurant_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "service.proto",
 }
