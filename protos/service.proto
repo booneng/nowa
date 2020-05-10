@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+import "nowa/protos/restaurant.proto";
+
+option go_package = "github.com/booneng/nowa";
+
+package nowa;
+
+message GetRestaurantRequest {
+    int32 restaurant_id = 1;
+}
+
+message GetRestaurantResponse {
+    Restaurant restaurant = 1;
+}
+
+service Nowa {
+
+}

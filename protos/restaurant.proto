@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package nowa;
+
+option go_package = "github.com/booneng/nowa";
+
+message Restaurant {
+  // Unique identifier for the restaurant.
+  int32 restaurant_id = 1;
+
+  // Name of the restaurant.
+  string name = 2;
+}
