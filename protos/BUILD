@@ -5,7 +5,7 @@ load("@io_bazel_rules_go//proto:def.bzl", "go_proto_library")
 proto_library(
     name = "protos_proto",
     srcs = [
-        "restaurant.proto",
+        "nowa.proto",
         "service.proto",
     ],
     visibility = ["//visibility:public"],
