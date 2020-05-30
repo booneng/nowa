@@ -12,7 +12,9 @@ go_library(
     importpath = "github.com/booneng/nowa/server",
     visibility = ["//visibility:private"],
     deps = [
-        "//protos:protos_go_proto",
+        "//protos:go_default_library",
+        "@com_github_go_sql_driver_mysql//:go_default_library",
+        "@com_github_masterminds_squirrel//:go_default_library",
         "@org_golang_google_grpc//:go_default_library",
     ],
 )

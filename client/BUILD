@@ -6,7 +6,7 @@ go_library(
     importpath = "github.com/booneng/nowa/client",
     visibility = ["//visibility:private"],
     deps = [
-        "//protos:protos_go_proto",
+        "//protos:go_default_library",
         "@org_golang_google_grpc//:go_default_library",
     ],
 )
