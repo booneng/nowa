@@ -19,18 +19,10 @@ RUN git clone -q https://github.com/golang/protobuf && \
 
 
 
-FROM golang:1.14
-
-WORKDIR /src
+FROM debian:buster-slim
 
 COPY --from=builder /go/protoc/include/google /usr/local/include/google
 COPY --from=builder /go/protoc/bin/protoc /usr/local/bin/protoc
 COPY --from=builder /go/bin/protoc-gen-go /usr/local/bin/protoc-gen-go
 
-COPY . .
-
-RUN /usr/local/bin/protoc \
-    --proto_path=/src \
-    --go_out=plugins=grpc:. \
-    --go_opt=paths=source_relative \
-    /src/protos/*.proto
+ENTRYPOINT ["/usr/local/bin/protoc"]
