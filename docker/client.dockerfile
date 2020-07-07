@@ -32,7 +32,7 @@ RUN /usr/local/bin/protoc \
     --go_out=plugins=grpc:. \
     --go_opt=paths=source_relative \
     /src/protos/*.proto
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o server_binary server/server.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o client_binary client/client.go
 
 FROM alpine:latest  
 
@@ -40,6 +40,6 @@ RUN apk --no-cache add ca-certificates
 
 WORKDIR /root
 
-COPY --from=builder /src/server_binary .
+COPY --from=builder /src/client_binary .
 
-CMD ["./server_binary"]
+CMD ["./client_binary"]
