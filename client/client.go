@@ -28,4 +28,5 @@ func main() {
 	}
 
 	log.Printf("Response from server: %s", res.Restaurant.Name)
+	log.Printf("Response from server: %s", res)
 }

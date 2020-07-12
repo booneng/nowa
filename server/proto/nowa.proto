@@ -17,7 +17,7 @@ message Restaurant {
 
 message MenuItem {
     // Unique identifier for the menu item.
-    int64 menu_id = 1;
+    int64 item_id = 1;
 
     enum Status {
         UNKNOWN = 0;
