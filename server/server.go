@@ -39,12 +39,18 @@ func (s *server) GetRestaurant(ctx context.Context, in *pb.GetRestaurantRequest)
 	defer conn.Close(context.Background())
 	var restaurant_id int32
 	var restaurant_name string
-	err = conn.QueryRow(context.Background(), "SELECT restaurant_id, restaurant_name FROM RestaurantsTable WHERE restaurant_id = $1", in.GetRestaurantId()).Scan(&restaurant_id, &restaurant_name)
+	err = conn.QueryRow(
+		context.Background(),
+		"SELECT restaurant_id, restaurant_name FROM RestaurantsTable WHERE restaurant_id = $1",
+		in.GetRestaurantId(),
+	).Scan(&restaurant_id, &restaurant_name)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
 		os.Exit(1)
 	}
-	return &pb.GetRestaurantResponse{Restaurant: &pb.Restaurant{RestaurantId: restaurant_id, Name: restaurant_name}}, nil
+	return &pb.GetRestaurantResponse{
+		Restaurant: &pb.Restaurant{RestaurantId: restaurant_id, Name: restaurant_name},
+	}, nil
 }
 
 func main() {
