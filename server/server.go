@@ -7,7 +7,7 @@ import (
 	"net"
 	"os"
 
-	pb "github.com/booneng/nowa/protos"
+	pb "github.com/booneng/nowa/server/proto"
 	"github.com/jackc/pgx/v4"
 
 	"google.golang.org/grpc"
@@ -20,7 +20,7 @@ const (
 
 func StartSql() {
 	var err error
-	conn, err := pgx.Connect(context.Background(), db_url)
+	conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
 
 	defer conn.Close(context.Background())
 

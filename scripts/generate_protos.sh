@@ -14,6 +14,6 @@ docker run \
     "${PROTOC_CONTAINER_IMAGE}" \
         --proto_path=${ROOT} \
         --go_out=plugins=grpc,paths=source_relative:. \
-        ${ROOT}/protos/*.proto
+        ${ROOT}/server/proto/*.proto
 
 echo "Protos regenerated (OK)"
