@@ -14,20 +14,8 @@ import (
 )
 
 const (
-	port   = ":50051"
-	db_url = "postgres://nowauser:secretpassword@127.0.0.1:5432/nowa"
+	port = ":50051"
 )
-
-func StartSql() {
-	var err error
-	conn, err := pgx.Connect(context.Background(), os.Getenv("DATABASE_URL"))
-
-	defer conn.Close(context.Background())
-
-	if err != nil {
-		log.Fatalf("failed to open DB: %v", err)
-	}
-}
 
 type server struct {
 	pb.UnimplementedNowaServer
@@ -35,12 +23,16 @@ type server struct {
 
 func (s *server) GetRestaurant(ctx context.Context, in *pb.GetRestaurantRequest) (*pb.GetRestaurantResponse, error) {
 	log.Printf("Received: %v", in.GetRestaurantId())
-	conn, err := pgx.Connect(context.Background(), db_url)
-	defer conn.Close(context.Background())
+	conn, err := pgx.Connect(ctx, os.Getenv("DATABASE_URL"))
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+	defer conn.Close(ctx)
 	var restaurant_id int32
 	var restaurant_name string
 	err = conn.QueryRow(
-		context.Background(),
+		ctx,
 		"SELECT restaurant_id, restaurant_name FROM RestaurantsTable WHERE restaurant_id = $1",
 		in.GetRestaurantId(),
 	).Scan(&restaurant_id, &restaurant_name)
@@ -54,7 +46,6 @@ func (s *server) GetRestaurant(ctx context.Context, in *pb.GetRestaurantRequest)
 }
 
 func main() {
-	StartSql()
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)

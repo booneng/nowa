@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  db:
+    build:
+      context: ../
+      dockerfile: docker/database.dockerfile
+    environment:
+      POSTGRES_DB: nowa
+      POSTGRES_USER: nowauser
+      POSTGRES_PASSWORD: nowapassword
+    ports:
+      - 5432:5432
+
+  server:
+    build:
+      context: ../
+      dockerfile: docker/server.dockerfile
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://nowauser:nowapassword@db:5432/nowa
+    ports:
+      - 50051:50051
