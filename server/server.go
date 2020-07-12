@@ -2,26 +2,28 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"log"
 	"net"
+	"os"
 
 	pb "github.com/booneng/nowa/protos"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/jackc/pgx/v4"
 
 	"google.golang.org/grpc"
 )
 
-var pool *sql.DB
-
 const (
-	port = ":50051"
+	port   = ":50051"
+	db_url = "postgres://nowauser:secretpassword@127.0.0.1:5432/nowa"
 )
 
 func StartSql() {
 	var err error
-	pool, err = sql.Open("mysql", "root:@/nowa")
+	conn, err := pgx.Connect(context.Background(), db_url)
+
+	defer conn.Close(context.Background())
+
 	if err != nil {
 		log.Fatalf("failed to open DB: %v", err)
 	}
@@ -31,26 +33,22 @@ type server struct {
 	pb.UnimplementedNowaServer
 }
 
-func InsertData() {
-	query := "INSERT INTO RestaurantsTable (RestaurantId, Name) VALUES (1, \"hello\")"
-	res, err := pool.Exec(query)
-	log.Println(query)
-	log.Printf("error %v", err)
-	log.Printf("Test %v", res)
-}
-
 func (s *server) GetRestaurant(ctx context.Context, in *pb.GetRestaurantRequest) (*pb.GetRestaurantResponse, error) {
 	log.Printf("Received: %v", in.GetRestaurantId())
-	query := fmt.Sprintf("SELECT * FROM RestaurantsTable WHERE RestaurantId = %d", in.GetRestaurantId())
-	row, err := pool.Query(query)
-	log.Printf("query err %v", err)
-	log.Println(row)
-	return &pb.GetRestaurantResponse{Restaurant: &pb.Restaurant{RestaurantId: in.GetRestaurantId(), Name: "mcd"}}, nil
+	conn, err := pgx.Connect(context.Background(), db_url)
+	defer conn.Close(context.Background())
+	var restaurant_id int32
+	var restaurant_name string
+	err = conn.QueryRow(context.Background(), "SELECT restaurant_id, restaurant_name FROM RestaurantsTable WHERE restaurant_id = $1", in.GetRestaurantId()).Scan(&restaurant_id, &restaurant_name)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
+		os.Exit(1)
+	}
+	return &pb.GetRestaurantResponse{Restaurant: &pb.Restaurant{RestaurantId: restaurant_id, Name: restaurant_name}}, nil
 }
 
 func main() {
 	StartSql()
-	InsertData()
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
