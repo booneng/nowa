@@ -1,9 +1,9 @@
 FROM google/dart
 
 ENV PROTOC_VERSION "3.11.4"
-ENV PATH="/tmp/protobuf/protoc_plugin/bin:$PATH"
+ENV PATH="/src/protobuf/protoc_plugin/bin:$PATH"
 
-WORKDIR /tmp
+WORKDIR /src
 
 RUN apt-get update -yqq && \
   apt-get install -yqq curl git unzip
