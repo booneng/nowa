@@ -7,7 +7,7 @@ import (
 	"net"
 	"os"
 
-	pb "github.com/booneng/nowa/server/proto"
+	pb "github.com/booneng/nowaproto/proto"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
 
