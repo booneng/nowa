@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	pb "github.com/booneng/nowaproto/proto"
+	pb "github.com/booneng/nowaproto/proto/gen"
 
 	"google.golang.org/grpc"
 )
