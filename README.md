@@ -19,5 +19,3 @@ Make a call to the server
 ```shell
 $ grpc_cli call localhost:50051 GetRestaurant "restaurant_id: 1"
 ```
-
-
