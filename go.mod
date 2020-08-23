@@ -3,7 +3,7 @@ module github.com/booneng/nowa
 go 1.14
 
 require (
-	github.com/booneng/nowaproto v0.0.0-20200822084100-78670b8f8049
+	github.com/booneng/nowaproto v0.0.2-0.20200823094732-ab94767b3e3f
 	github.com/golang/protobuf v1.4.2 // indirect
 	github.com/google/go-cmp v0.4.1 // indirect
 	github.com/jackc/pgx/v4 v4.7.1
