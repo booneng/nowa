@@ -3,7 +3,7 @@
 To startup a development server, run
 
 ```shell
-$ docker-compose -f docker/docker-compose.yml up
+$ docker-compose -f docker/docker-compose.yaml up
 ```
 
 Now you can start making requests to the server.
@@ -12,7 +12,8 @@ Now you can start making requests to the server.
 
 ### grpc_cli
 
-Follow this guide to install grpc_cli: https://grpc.github.io/grpc/core/md_doc_command_line_tool.html
+Follow this guide to install grpc_cli:
+https://grpc.github.io/grpc/core/md_doc_command_line_tool.html
 
 Make a call to the server
 
