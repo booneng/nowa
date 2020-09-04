@@ -1,5 +1,7 @@
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
+github.com/booneng/nowagengo v1.0.0 h1:NwDX/SpfH8eU1JS736b8Bc6XNCJvPAFydxk5tbVBi0M=
+github.com/booneng/nowagengo v1.0.0/go.mod h1:OspNYhvL9sjOJ+PFN2zx3QwXz1taTXK9dWJJjIn6sGY=
 github.com/booneng/nowaproto v0.0.3 h1:iRfB2in/LphgPDAMGa4oKAlZ6GnZ31dqGILHu97kmz8=
 github.com/booneng/nowaproto v0.0.3/go.mod h1:VR5F54iDtT3c3Drz30soKZ+9Y7ySGtUtSfjMGJXjbBg=
 github.com/census-instrumentation/opencensus-proto v0.2.1/go.mod h1:f6KPmirojxKA12rnyqOA5BBL4O983OfeGPqjHWSTneU=

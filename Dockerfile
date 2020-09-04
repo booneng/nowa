@@ -4,7 +4,7 @@ WORKDIR /src
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o server_binary server/server.go
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o server_binary internal/server/nowaserver.go
 
 FROM alpine:latest  
 

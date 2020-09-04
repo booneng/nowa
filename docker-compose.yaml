@@ -2,8 +2,7 @@ version: "3.8"
 services:
   db:
     build:
-      context: ../
-      dockerfile: docker/database.dockerfile
+      context: schema
     environment:
       POSTGRES_DB: nowa
       POSTGRES_USER: nowauser
@@ -13,8 +12,7 @@ services:
 
   server:
     build:
-      context: ../
-      dockerfile: docker/server.dockerfile
+      context: .
     depends_on:
       - db
     environment:
